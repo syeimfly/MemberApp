@@ -1,0 +1,22 @@
+.home {
+  padding: 16px;
+  text-align: center;
+}
+
+.balance {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.home-qr {
+  margin-top: 16px;
+}
+
+.member-code {
+  font: 600 20px/1 ui-monospace, monospace;
+  letter-spacing: 2px;
+  color: var(--text-h);
+  margin: 8px 0 4px;
+}

@@ -1,0 +1,24 @@
+.center { text-align: center; padding-top: 48px; }
+.big { font-size: 64px; font-weight: 700; line-height: 1.2; margin-top: 16px; color: var(--good); }
+.scanner { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.reader { width: 100%; }
+.typed { gap: 8px; }
+.input {
+  flex: 1; min-width: 0; box-sizing: border-box; font: inherit; padding: 12px;
+  border: 1px solid var(--border); border-radius: 10px;
+}
+.login .input { width: 100%; margin-bottom: 16px; }
+.btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--border); }
+.stepper { display: flex; align-items: center; gap: 12px; }
+.stepper button {
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--bg); font-size: 20px; cursor: pointer;
+}
+.stepper button:disabled { opacity: 0.4; cursor: not-allowed; }
+.stepper span { min-width: 20px; text-align: center; font-weight: 600; }
+.checkout {
+  position: sticky; bottom: 64px; display: flex; justify-content: space-between;
+  align-items: center; margin-top: 16px; padding: 12px 0; background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.card.ok { border-color: var(--good); }

@@ -1,0 +1,67 @@
+erDiagram
+    MEMBER ||--o{ SALE : "earns points from"
+    MEMBER ||--o{ COUPON : owns
+    MEMBER ||--o{ LOGIN_ATTEMPT : requests
+    SALE ||--|{ SALE_ITEM : contains
+    PRODUCT ||--o{ SALE_ITEM : "sold as"
+    REWARD ||--o{ COUPON : "issued as"
+
+    MEMBER {
+        int id PK
+        string code UK "short public code, this is the QR"
+        bigint telegram_chat_id UK "null until first bot Start"
+        string name
+        string phone UK "null until given"
+        datetime created_at
+    }
+
+    PRODUCT {
+        int id PK
+        string name
+        numeric price
+        bool active
+    }
+
+    SALE {
+        int id PK
+        int member_id FK
+        numeric total "sum of line_total"
+        int points_awarded "frozen at sale time"
+        datetime created_at
+    }
+
+    SALE_ITEM {
+        int id PK
+        int sale_id FK
+        int product_id FK
+        int qty
+        numeric unit_price "copied, survives price changes"
+        numeric line_total "qty x unit_price"
+    }
+
+    REWARD {
+        int id PK
+        string name
+        string description
+        int points_cost
+        bool active
+    }
+
+    COUPON {
+        int id PK
+        int member_id FK
+        int reward_id FK
+        string code UK "what staff scans or types"
+        int points_spent "frozen at redeem time"
+        string status "issued or redeemed"
+        datetime created_at
+        datetime redeemed_at "null while issued"
+    }
+
+    LOGIN_ATTEMPT {
+        int id PK
+        int member_id FK "null until the bot links a chat"
+        string nonce UK "goes in the t.me start link"
+        datetime expires_at
+        datetime used_at "null until consumed"
+    }

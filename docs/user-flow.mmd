@@ -1,0 +1,43 @@
+flowchart TD
+    subgraph CUST["Customer app"]
+        C1([Open app]) --> C2{Logged in?}
+        C2 -->|yes| C7
+        C2 -->|no| C3[Tap Telegram button<br/>t.me/bot?start=nonce]
+        C3 --> C4[Press Start in Telegram]
+        C4 --> C5[Bot links chat_id<br/>member created if new]
+        C5 --> C7[Home<br/>points balance + my QR]
+        C7 --> C8[Show QR to staff]
+        C7 --> C9[Browse rewards]
+        C9 --> C10{Enough points?}
+        C10 -->|no| C9
+        C11[Coupon issued<br/>code + QR]
+        C7 --> C12[History<br/>points earned and spent]
+    end
+
+    subgraph STAFF["Staff app"]
+        S1([Staff login<br/>shared key]) --> S2[Scan customer QR<br/>or type the code]
+        S2 --> S3[Confirm member name]
+        S3 --> S4[Add products and qty]
+        S4 --> S5[Live total]
+        S5 --> S6[Confirm sale]
+        S6 --> S6b[Shows total and points awarded]
+        S1 --> S7[Validate coupon<br/>scan or type code]
+        S7b{Valid and unused?}
+        S7b -->|no| S7
+        S7b -->|yes| S8[Give the reward]
+    end
+
+    subgraph API["Backend"]
+        A1[POST /sales<br/>sum line totals<br/>points = total x rate]
+        A2[POST /me/coupons<br/>check balance, issue code]
+        A3[POST /coupons/code/redeem<br/>mark redeemed, once only]
+    end
+
+    C8 -.->|QR| S2
+    S6 --> A1
+    A1 -.->|new balance| C7
+    C10 -->|yes| A2
+    A2 --> C11
+    C11 -.->|coupon QR| S7
+    S7 --> A3
+    A3 --> S7b

@@ -10,12 +10,18 @@ services:
       - "5434:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U memberapp -d memberapp"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
 
   backend:
     build: ./backend
     restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql+psycopg2://memberapp:memberapp@db:5432/memberapp
     ports:
